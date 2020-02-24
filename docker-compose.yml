@@ -10,5 +10,19 @@ services:
     #      - logvolume01:/home/amirphl/recipe-app/recipe-app-api/log
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-#  volumes:
-#    logvolume01: {}
+    environment:
+      - DB_HOST=db
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=fffffff
+    depends_on:
+      - db
+  #  volumes:
+  #    logvolume01: {}
+
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=fffffff # never a good idea todo

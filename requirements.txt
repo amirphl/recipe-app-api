@@ -1,3 +1,4 @@
 Django
 djangorestframework
 flake8
+psycopg2
