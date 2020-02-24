@@ -12,3 +12,5 @@ python manage.py migrate &&
 python manage.py runserver 0.0.0.0:8000"
 docker-compose up
 docker-compose run app sh -c "python manage.py createsuperuser"
+docker-compose run --rm app sh -c "python manage.py startapp user"
+docker-compose run --rm app sh -c "python manage.py test && flake8"
