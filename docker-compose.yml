@@ -1,13 +1,14 @@
 version: "3"
 services:
- app:
-  build:
-   context: .
-  ports:
-   _ "8000:7000"
-  volumes:
-   _ ./app:/app
-  command: >
-   sh -c "python manage.py runserver 0.0.0.0:8000"
-
-	
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    #      - logvolume01:/home/amirphl/recipe-app/recipe-app-api/log
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+#  volumes:
+#    logvolume01: {}

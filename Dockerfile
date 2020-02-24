@@ -9,6 +9,3 @@ COPY ./app /app
 RUN useradd -ms /bin/bash phl
 #RUN adduser phl
 USER phl
-
- 
-
