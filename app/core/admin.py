@@ -15,8 +15,13 @@ class UserAdm(UserAdmin):
         ),
         (_('Important dates'), {'fields': ('last_login',)})
     )
+    add_fieldsets = (
+        (None, {'classes': ('wide',),
+                'fields': ('email', 'password1', 'password2')}),
+    )
 
 
 # 'last_logout', todo
+# edit page ?
 
 admin.site.register(get_user_model(), UserAdm)
