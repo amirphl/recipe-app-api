@@ -8,6 +8,10 @@ from django.db import models
 class UserManager(BaseUserManager):
 
     def create_user(self, email, password=None, **kwargs):
+        if not email:
+            raise ValueError('use must have an email address')
+        if email.strip() == '':
+            raise ValueError('use email must not be black')
         user = self.model(email=self.normalize_email(email), **kwargs)
         user.set_password(password)
         user.save(using=self._db)
