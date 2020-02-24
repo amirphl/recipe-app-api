@@ -10,6 +10,8 @@ class ModelTests(TestCase):
         user = get_user_model().objects.create_user(email=email, password=password)
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
+        self.assertFalse(user.is_staff)
+        self.assertTrue(user.is_active)
 
     def test_new_user_email_normalized(self):
         email = 'test@XXXCCCUUU.com'
@@ -23,3 +25,9 @@ class ModelTests(TestCase):
             get_user_model().objects.create_user('', '123test@#')
             get_user_model().objects.create_user(' ', '123test@#')
             get_user_model().objects.create_user(' aa ', '123test@#')
+
+    def test_create_new_superuser(self):
+        user = get_user_model().objects.create_superuser('aaa@gmail.com', '123test@#')
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.is_staff)
+        self.assertTrue(user.is_active)
