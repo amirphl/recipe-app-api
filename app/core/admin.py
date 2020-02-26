@@ -3,6 +3,8 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext as _
 
+from core import models
+
 
 class UserAdm(UserAdmin):
     ordering = ['id']
@@ -25,3 +27,4 @@ class UserAdm(UserAdmin):
 # edit page ?
 
 admin.site.register(get_user_model(), UserAdm)
+admin.site.register(models.Tag)
