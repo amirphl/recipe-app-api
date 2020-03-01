@@ -28,3 +28,4 @@ class UserAdm(UserAdmin):
 
 admin.site.register(get_user_model(), UserAdm)
 admin.site.register(models.Tag)
+admin.site.register(models.Ingredient)

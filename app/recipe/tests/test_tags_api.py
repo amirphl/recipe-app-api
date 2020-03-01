@@ -40,7 +40,7 @@ class PrivateTagsAPITest(TestCase):
         new_user = get_user_model().objects.create_user(email='new_user@new_mail.com', password='dsfndklvn')
         tag = Tag.objects.create(user=self.user, name='ddd')
         t1 = Tag.objects.create(user=new_user, name='eee')
-        t2 = Tag.objects.create(user=new_user, name='ddd')
+        # t2 = Tag.objects.create(user=new_user, name='ddd')
 
         res = self.client.get(TAGS_URL)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
