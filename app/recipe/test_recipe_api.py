@@ -61,7 +61,7 @@ class PrivateRecipesAPITest(TestCase):
         sample_recipe(new_user)
 
         res = self.client.get(RECIPES_URL)
-        recipes = Recipe.objects.filter(user=self.user)
+        # recipes = Recipe.objects.filter(user=self.user)
         # serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 2)
@@ -147,3 +147,37 @@ class PrivateRecipesAPITest(TestCase):
         self.assertIn(ingredient1, ingredients)
         self.assertIn(ingredient2, ingredients)
         self.assertIn(ingredient3, ingredients)
+
+    def test_partial_update_recipe(self):
+        """using patch"""
+        recipe = sample_recipe(self.user)
+        recipe.tags.add(sample_tag(self.user))
+        new_tag = sample_tag(self.user, name='new tag')
+        payload = {'title': 'new title', 'tags': [new_tag.id, ]}
+        url = detail_url(recipe.id)
+        self.client.patch(url, payload)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        tags = recipe.tags.all()
+        self.assertEqual(tags.count(), 1)
+        self.assertIn(new_tag, tags)
+
+    def test_full_update_recipe(self):
+        """using put, replace with full update"""
+        recipe = sample_recipe(self.user)
+        recipe.tags.add(sample_tag(self.user, name='zzzzz'))
+        new_tag = sample_tag(self.user, name='new tag')
+        payload = {'title': 'new title', 'time_minutes': 5, 'price': 6.0, 'tags': [new_tag.id, ]}
+        url = detail_url(recipe.id)
+        self.client.put(url, payload)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        self.assertEqual(recipe.price, payload['price'])
+        self.assertEqual(recipe.time_minutes, payload['time_minutes'])
+        tags = recipe.tags.all()
+        ingredients = recipe.ingredients.all()
+        self.assertEqual(tags.count(), 1)
+        self.assertEqual(ingredients.count(), 0)
+        self.assertIn(new_tag, tags)
