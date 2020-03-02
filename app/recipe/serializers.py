@@ -26,3 +26,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     # many = True for many to many fields
     # todo read more
     tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tag.objects.all())
+
+
+class RecipeDetailSerializer(RecipeSerializer):
+    ingredients = IngredientSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
